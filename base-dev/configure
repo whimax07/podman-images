@@ -1,0 +1,16 @@
+#!/bin/bash
+
+set -e
+
+mkdir /home/Downloads
+mkdir /home/IdeaProjects
+mkdir /home/temp
+
+git clone https://github.com/whimax07/straight-and-narrow
+
+pushd straight-and-narrow
+    cp dotBashrc ~/.bashrc
+    cp dotMkps1 ~/.mkps1
+popd
+
+

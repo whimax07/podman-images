@@ -1,0 +1,13 @@
+#!/bin/bash
+
+TAG="dev"
+VERSION="latest"
+
+SOURCE_DIR=$(dirname "${BASH_SOURCE[0]}")
+
+if [[ "$1" == "-h" || "$1" == "--help" ]]; then
+    echo "Builds my base dev image, edit to configure. [Tag=$TAG, Version=$VERSION]"
+    exit 0
+fi
+
+podman build -t $TAG:$VERSION "$SOURCE_DIR"

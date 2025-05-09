@@ -1,0 +1,27 @@
+#!/bin/bash
+
+set -e
+
+SOURCE_DIR=$(dirname "${BASH_SOURCE[0]}")
+HOST_DIR=$(readlink -f "$SOURCE_DIR/../../..")
+
+sudo dnf install -y git-all
+test ! -L "$HOME/host" && ln -s "$HOST_DIR" "$HOME/host"
+test ! -L "$HOME/IdeaProjects" && ln -s "$HOST_DIR/IdeaProjects" "$HOME/IdeaProjects"
+test ! -L "$HOME/podman-images" && ln -s "$HOST_DIR/IdeaProjects/podman-images" "$HOME/podman-images"
+
+pushd "$HOME/IdeaProjects" || exit 1
+    if [[ ! -d "straight-and-narrow" ]]; then
+        git clone https://github.com/whimax07/straight-and-narrow
+    fi
+
+    pushd "$HOME/IdeaProjects/straight-and-narrow" || exit 1
+        git config --global --add safe.directory /mnt/c/Users/Max/IdeaProjects/straight-and-narrow
+        git pull
+        cp dotBashrc "$HOME/.bashrc"
+        cp dotMkps1 "$HOME/.mkps1"
+        chmod 644 "$HOME/.mkps1"
+    popd || exit 1
+
+    source "$HOME/.bashrc"
+popd || exit 1
